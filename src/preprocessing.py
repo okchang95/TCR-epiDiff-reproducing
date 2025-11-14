@@ -21,7 +21,7 @@ class Preprocessor:
     def codon2one_hot(self, codon: str) -> np.ndarray:
         """
         코돈을 one-hot encoding으로 변환합니다.
-        0: A, 1: C, 2: G, 3: T
+        0: A, 1: T, 2: G, 3: C
         """
         return np.array([ONE_HOT_ENCODING_TABLE[c] for c in codon])
 
