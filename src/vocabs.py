@@ -10,6 +10,13 @@ all tabls:
 - AMINO_ACID_TO_CODONS_ALL: 아미노산별 전체 코돈 리스트 매핑
 """
 
+########################################################
+#
+# Codon and Amino Acid Tables
+#
+########################################################
+
+
 # 표준 아미노산 리스트 (Stop 제외)
 STANDARD_AMINO_ACIDS = [
     "A",
@@ -171,6 +178,20 @@ def get_frequency(codon: str) -> float:
     """코돈의 사용 빈도를 반환합니다."""
     return CODON_TABLE.get(codon, {}).get("frequency", 0.0)
 
+
+########################################################
+#
+# One-Hot Encoding Tables
+#
+########################################################
+
+
+ONE_HOT_ENCODING_TABLE = {
+    "A": [1, 0, 0, 0],
+    "C": [0, 1, 0, 0],
+    "G": [0, 0, 1, 0],
+    "T": [0, 0, 0, 1],
+}
 
 if __name__ == "__main__":
     print(get_most_freq_codon("A"))
