@@ -25,24 +25,24 @@ API_BASE_URL = st.sidebar.text_input(
 )
 
 # 제목 및 설명
-st.title("🧬 TCR Epitope Prediction")
+st.title("🧬 TCR Generation from Epitope")
 st.markdown("---")
 st.markdown(
     """
-    이 도구는 TCR (T-cell Receptor)의 CDR3 서열을 입력받아 예측된 epitope를 반환합니다.
+    이 도구는 Epitope 서열을 입력받아 TCR (T-cell Receptor)의 CDR3 서열을 생성합니다.
     """
 )
 
 # 입력 섹션
 st.subheader("📥 입력")
 
-# CDR3 입력 필드
-cdr3_input = st.text_input(
-    "CDR3 서열", placeholder="예: CASSLGQYEQYF", help="TCR의 CDR3 서열을 입력하세요"
+# Epitope 입력 필드
+epitope_input = st.text_input(
+    "Epitope 서열", placeholder="예: FLKEKGGL", help="Epitope 서열을 입력하세요"
 )
 
 # 제출 버튼
-submit_button = st.button("🔍 예측 실행", type="primary", use_container_width=True)
+submit_button = st.button("🔍 TCR 생성", type="primary", use_container_width=True)
 
 st.markdown("---")
 
@@ -50,15 +50,15 @@ st.markdown("---")
 st.subheader("📤 결과")
 
 if submit_button:
-    if not cdr3_input or cdr3_input.strip() == "":
-        st.error("⚠️ CDR3 서열을 입력해주세요.")
+    if not epitope_input or epitope_input.strip() == "":
+        st.error("⚠️ Epitope 서열을 입력해주세요.")
     else:
-        with st.spinner("예측 중..."):
+        with st.spinner("생성 중..."):
             try:
                 # FastAPI 엔드포인트 호출
                 response = requests.post(
                     f"{API_BASE_URL}/tcr",
-                    json={"cdr3": cdr3_input.strip()},
+                    json={"epitope": epitope_input.strip()},
                     timeout=30,
                 )
 
@@ -66,18 +66,18 @@ if submit_button:
                     result = response.json()
 
                     # 결과 표시
-                    st.success("✅ 예측 완료!")
+                    st.success("✅ 생성 완료!")
 
                     # 결과 카드
-                    st.markdown("### 예측 결과")
+                    st.markdown("### 생성 결과")
 
                     col_result1, col_result2 = st.columns(2)
 
                     with col_result1:
-                        st.metric("입력 CDR3", result.get("input_cdr3", "N/A"))
+                        st.metric("입력 Epitope", result.get("input_epitope", "N/A"))
 
                     with col_result2:
-                        st.metric("예측 Epitope", result.get("epitope", "N/A"))
+                        st.metric("생성된 TCR", result.get("tcr", "N/A"))
 
                     # 상세 정보
                     with st.expander("📋 상세 정보 보기"):
@@ -107,7 +107,7 @@ if submit_button:
                 st.error(f"❌ 예상치 못한 오류가 발생했습니다: {str(e)}")
 
 else:
-    st.info("👈 위에서 CDR3 서열을 입력하고 '예측 실행' 버튼을 클릭하세요.")
+    st.info("👈 위에서 Epitope 서열을 입력하고 'TCR 생성' 버튼을 클릭하세요.")
 
 # 사이드바에 추가 정보
 st.sidebar.markdown("---")
@@ -115,9 +115,9 @@ st.sidebar.markdown("### ℹ️ 사용 방법")
 st.sidebar.markdown(
     """
     1. FastAPI 서버가 실행 중인지 확인하세요
-    2. CDR3 서열을 입력하세요
-    3. '예측 실행' 버튼을 클릭하세요
-    4. 결과를 확인하세요
+    2. Epitope 서열을 입력하세요
+    3. 'TCR 생성' 버튼을 클릭하세요
+    4. 생성된 TCR 서열을 확인하세요
     """
 )
 
@@ -125,8 +125,8 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### 📝 참고")
 st.sidebar.markdown(
     """
+    - Epitope는 항원과 결합하는 특정 부위를 의미합니다
     - CDR3 서열은 T-cell Receptor의 
       Complementarity Determining Region 3를 의미합니다
-    - Epitope는 항원과 결합하는 특정 부위를 의미합니다
     """
 )
