@@ -1,7 +1,7 @@
 # TCR-epiDiff reproducing
 
 ### 목표
-- 학습 및 개선점 파악을 위한 TCR-epiDiff 논문 재현
+- 공부 및 개선점 파악을 위한 [TCR-epiDiff 논문](https://academic.oup.com/bioinformatics/article/41/Supplement_1/i125/8199382) 재현
 - 모델의 재현성을 위해 서버 또는 툴로서 제공하는 방법을 고민
 
 
